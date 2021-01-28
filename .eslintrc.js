@@ -9,7 +9,9 @@ module.exports = {
     "eslint:recommended",
     "eslint-config-prettier",
     "plugin:cypress/recommended",
+    "plugin:react/recommended",
   ],
+  plugins: ["react-hooks"],
   globals: {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly",
@@ -27,5 +29,7 @@ module.exports = {
   rules: {
     semi: ["error", "always"],
     "no-prototype-builtins": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
   },
 };
