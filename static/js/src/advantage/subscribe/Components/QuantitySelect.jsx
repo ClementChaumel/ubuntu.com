@@ -1,16 +1,8 @@
 import React from "react";
-import Input from "@canonical/react-components";
+import { Input } from "@canonical/react-components";
 
 function QuantitySelect() {
-  return (
-    <Input
-      type="text"
-      id="exampleTextInput3"
-      placeholder="example@canonical.com"
-      stacked
-      label="Email address"
-    />
-  );
+  return <Input type="number" placeholder="0" min="0" />;
 }
 
 export default QuantitySelect;
