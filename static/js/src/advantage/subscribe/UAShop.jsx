@@ -1,25 +1,35 @@
 import React from "react";
+import Header from "./Components/Header.jsx";
+import Cart from "./Components/Cart.jsx";
+import TypeSelect from "./Components/TypeSelect.jsx";
+import QuantitySelect from "./Components/QuantitySelect.jsx";
+import VersionSelect from "./Components/VersionSelect.jsx";
+import ESMAppsSelect from "./Components/ESMAppsSelect.jsx";
+import OtherSoftwareSelect from "./Components/OtherSoftwareSelect.jsx";
+import SupportSelect from "./Components/SupportSelect.jsx";
+import Summary from "./Components/Summary.jsx";
 
 function UAShop() {
+  const isCartEmpty = false;
+
   return (
-    <section className="p-strip--suru-topped js-shop-hero u-no-padding--bottom ">
-      <div className="row">
-        <div className="col-12 u-sv3">
-          <h1>Subscribe to Ubuntu Advantage</h1>
-          <p>
-            If you have existing subscriptions or sales offers,
-            <a
-              href="{% if is_test_backend %}/login?test_backend=true{% else %}/login{% endif %}"
-              onClick="dataLayer.push({ 'event' : 'GAEvent', 'eventCategory' : 'Advantage subscribe', 'eventAction' : 'Authentication', 'eventLabel' : 'Sign in', 'eventValue' : undefined });"
-            >
-              sign in
-            </a>
-            to see them.{" "}
-          </p>
-          <h1>Add machines to your subscription</h1>
-        </div>
-      </div>
-    </section>
+    <div>
+      <section className="p-strip--suru-topped-light">
+        {isCartEmpty ? <Header /> : <Cart />}
+        <h1>heeeeeooo</h1>
+      </section>
+      <TypeSelect />
+      <QuantitySelect />
+
+      <VersionSelect />
+
+      <ESMAppsSelect />
+      <OtherSoftwareSelect />
+
+      <SupportSelect />
+
+      <Summary />
+    </div>
   );
 }
 export default UAShop;
