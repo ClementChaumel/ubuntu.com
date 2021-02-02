@@ -1,16 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import VersionFeatureList from "./VersionFeatureList.jsx";
 import TabItem from "./TabItem.jsx";
+import { useStore, useDispatch } from "../../store/useStore.jsx";
 
 function VersionSelect() {
-  const [selectedVersion, setSelectedVersion] = useState("20.04");
+  const {
+    currentProduct: { quantity, version },
+  } = useStore();
+  const dispatch = useDispatch();
 
   const handleVersionSelect = (version) => {
-    setSelectedVersion(version);
+    dispatch({ type: "SetVersion", value: version });
   };
 
   return (
-    <section className="p-strip is-shallow js-shop-step--version">
+    <section
+      className={`p-strip is-shallow ${quantity > 0 ? "" : "u-disabled"}`}
+    >
       <div className="js-tab-container">
         <div className="row">
           <div className="col-12">
@@ -26,35 +32,35 @@ function VersionSelect() {
               <TabItem
                 version="20.04"
                 onTabItemClick={handleVersionSelect}
-                isSelected={selectedVersion === "20.04"}
+                isSelected={version === "20.04"}
               >
                 20.04 LTS
               </TabItem>
               <TabItem
                 version="18.04"
                 onTabItemClick={handleVersionSelect}
-                isSelected={selectedVersion === "18.04"}
+                isSelected={version === "18.04"}
               >
                 18.04 LTS
               </TabItem>
               <TabItem
                 version="16.04"
                 onTabItemClick={handleVersionSelect}
-                isSelected={selectedVersion === "16.04"}
+                isSelected={version === "16.04"}
               >
                 16.04 LTS
               </TabItem>
               <TabItem
                 version="14.04"
                 onTabItemClick={handleVersionSelect}
-                isSelected={selectedVersion === "14.04"}
+                isSelected={version === "14.04"}
               >
                 14.04 LTS
               </TabItem>
               <TabItem
                 version="other"
                 onTabItemClick={handleVersionSelect}
-                isSelected={selectedVersion === "other"}
+                isSelected={version === "other"}
               >
                 Other
               </TabItem>
@@ -62,8 +68,8 @@ function VersionSelect() {
           </nav>
 
           <div className="col-10">
-            {selectedVersion !== "other" ? (
-              <VersionFeatureList version={selectedVersion} />
+            {version !== "other" ? (
+              <VersionFeatureList version={version} />
             ) : (
               <div
                 id="other"

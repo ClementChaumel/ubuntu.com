@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "./Image.jsx";
+import { useDispatch, useStore } from "../store/useStore.jsx";
 
 function TypeSelect() {
-  const [selectedType, setType] = useState();
+  const {
+    currentProduct: { type },
+  } = useStore();
+  const dispatch = useDispatch();
 
   const isMoreThanOneTypeEnabled =
-    selectedType === "physical" ||
-    selectedType === "virtual" ||
-    selectedType === "desktop";
+    type === "physical" || type === "virtual" || type === "desktop";
 
   const externalLinks = {
     aws: (
@@ -29,8 +31,7 @@ function TypeSelect() {
   };
 
   const handleChange = (e) => {
-    console.log(e.target.value);
-    setType(e.target.value);
+    dispatch({ type: "SetType", value: e.target.value });
   };
 
   return (
@@ -45,7 +46,7 @@ function TypeSelect() {
         <div className="col-12 row--5-col">
           <div
             className={`p-card--radio ${
-              selectedType === "physical" && "is-selected"
+              type === "physical" ? "is-selected" : ""
             }`}
           >
             <Image
@@ -66,9 +67,7 @@ function TypeSelect() {
           </div>
 
           <div
-            className={`p-card--radio ${
-              selectedType === "aws" && "is-selected"
-            }`}
+            className={`p-card--radio ${type === "aws" ? "is-selected" : ""}`}
           >
             <Image
               url="https://assets.ubuntu.com/v1/a82add58-profile-aws.svg"
@@ -86,9 +85,7 @@ function TypeSelect() {
           </div>
 
           <div
-            className={`p-card--radio ${
-              selectedType === "azure" && "is-selected"
-            }`}
+            className={`p-card--radio ${type === "azure" ? "is-selected" : ""}`}
           >
             <Image
               url="https://assets.ubuntu.com/v1/da9a1344-Microsoft-Azure-logo_stacked_transparent.png"
@@ -107,7 +104,7 @@ function TypeSelect() {
 
           <div
             className={`p-card--radio ${
-              selectedType === "virtual" && "is-selected"
+              type === "virtual" ? "is-selected" : ""
             }`}
           >
             <Image
@@ -129,7 +126,7 @@ function TypeSelect() {
 
           <div
             className={`p-card--radio ${
-              selectedType === "desktop" && "is-selected"
+              type === "desktop" ? "is-selected" : ""
             }`}
           >
             <Image
@@ -150,7 +147,7 @@ function TypeSelect() {
           </div>
         </div>
 
-        {(selectedType === "aws" || selectedType === "azure") && (
+        {(type === "aws" || type === "azure") && (
           <div
             className="col-12"
             style={{
@@ -160,15 +157,16 @@ function TypeSelect() {
             }}
           >
             <span>
-              You can buy {externalLinks[selectedType]} at an hourly,
-              per-machine rate, with all UA software features included. If you
-              need tech support as well,{" "}
-              <a href="/support/contact-us">contact us</a>.
+              You can buy {externalLinks[type]} at an hourly, per-machine rate,
+              with all UA software features included. If you need tech support
+              as well, <a href="/support/contact-us">contact us</a>.
             </span>
           </div>
         )}
 
-        <div className={`col-12 ${!isMoreThanOneTypeEnabled && "u-disabled"}`}>
+        <div
+          className={`col-12 ${!isMoreThanOneTypeEnabled ? "u-disabled" : ""}`}
+        >
           <p>If you have more than one kind, you can add the others later.</p>
         </div>
       </div>

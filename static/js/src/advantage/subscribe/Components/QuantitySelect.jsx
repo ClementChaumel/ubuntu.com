@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@canonical/react-components";
+import { debounce } from "../../../utils/debounce";
+import { useDispatch, useStore } from "../store/useStore.jsx";
 
 function QuantitySelect() {
+  const {
+    currentProduct: { quantity },
+  } = useStore();
+  const dispatch = useDispatch();
+
+  const [touched, setTouched] = useState(false);
+
+  const handleChange = (e) => {
+    setTouched(true);
+    dispatch({ type: "SetQuantity", value: e.target.value });
+  };
+
   return (
-    <section className="p-strip is-shallow js-shop-step--quantity">
+    <section className="p-strip is-shallow">
       <div className="row">
         <div className="col-12">
           <h2 className="p-heading--three u-no-margin--bottom u-sv2">
@@ -17,7 +31,10 @@ function QuantitySelect() {
             min="1"
             max="1000"
             step="1"
+            onChange={debounce(handleChange, 250)}
+            defaultValue={quantity}
             style={{ ScrollMarginBottom: "2px" }}
+            error={quantity < 1 && touched ? "Must be more than 0" : false}
           />
         </div>
       </div>
