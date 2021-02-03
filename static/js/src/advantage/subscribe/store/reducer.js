@@ -4,7 +4,10 @@ export const initialStore = {
     quantity: null,
     version: "20.04",
     ESMApps: false,
-    otherSofware: false,
+    otherSoftware: {
+      securityUpdates: false,
+      KVMDrivers: false,
+    },
     support: null,
   },
 };
