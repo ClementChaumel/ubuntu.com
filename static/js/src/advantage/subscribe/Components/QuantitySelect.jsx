@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import { Input } from "@canonical/react-components";
 import { debounce } from "../../../utils/debounce";
 import { useDispatch, useStore } from "../store/useStore.jsx";
+import useGetState from "../hooks/useGetState";
+import Section from "./Section.jsx";
 
 function QuantitySelect() {
   const {
     currentProduct: { quantity },
   } = useStore();
   const dispatch = useDispatch();
+
+  const {
+    quantity: { disabled, hidden },
+  } = useGetState();
 
   const [touched, setTouched] = useState(false);
 
@@ -17,7 +23,7 @@ function QuantitySelect() {
   };
 
   return (
-    <section className="p-strip is-shallow">
+    <Section disabled={disabled} hidden={hidden}>
       <div className="row">
         <div className="col-12">
           <h2 className="p-heading--three u-no-margin--bottom u-sv2">
@@ -35,10 +41,11 @@ function QuantitySelect() {
             defaultValue={quantity}
             style={{ ScrollMarginBottom: "2px" }}
             error={quantity < 1 && touched ? "Must be more than 0" : false}
+            disabled={disabled}
           />
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 

@@ -2,21 +2,27 @@ import React from "react";
 import VersionFeatureList from "./VersionFeatureList.jsx";
 import TabItem from "./TabItem.jsx";
 import { useStore, useDispatch } from "../../store/useStore.jsx";
+import useGetState from "../../hooks/useGetState.js";
+import Section from "../Section.jsx";
 
 function VersionSelect() {
   const {
-    currentProduct: { quantity, version },
+    currentProduct: { version },
   } = useStore();
   const dispatch = useDispatch();
 
+  const {
+    version: { disabled, hidden },
+  } = useGetState();
+
   const handleVersionSelect = (version) => {
-    dispatch({ type: "SetVersion", value: version });
+    if (!disabled) {
+      dispatch({ type: "SetVersion", value: version });
+    }
   };
 
   return (
-    <section
-      className={`p-strip is-shallow ${quantity > 0 ? "" : "u-disabled"}`}
-    >
+    <Section disabled={disabled} hidden={hidden}>
       <div className="row">
         <div className="col-12">
           <h2 className="p-heading--3 u-no-margin--bottom u-sv2">
@@ -107,7 +113,7 @@ function VersionSelect() {
           )}
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 

@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
+import useGetState from "../hooks/useGetState.js";
+import Section from "./Section.jsx";
+import { useStore, useDispatch } from "../store/useStore.jsx";
 
 function SupportSelect() {
-  const [selectedSupport, setSupport] = useState();
+  const {
+    currentProduct: { support },
+  } = useStore();
+  const dispatch = useDispatch();
+
+  const {
+    support: { disabled, hidden },
+  } = useGetState();
 
   const handleSupportChange = (e) => {
-    setSupport(e.target.value);
+    dispatch({ type: "SetSupport", value: e.target.value });
   };
 
   return (
-    <section className="p-strip is-shallow js-shop-step--support">
+    <Section disabled={disabled} hidden={hidden}>
       <div className="row" onChange={handleSupportChange}>
         <div className="col-12">
           <h2 className="p-heading--three u-no-margin--bottom u-sv2">
@@ -18,7 +28,7 @@ function SupportSelect() {
 
         <div
           className={`col-4 p-card--radio u-no-padding--top u-no-padding--bottom ${
-            selectedSupport === "essential" ? "is-selected" : ""
+            support === "essential" ? "is-selected" : ""
           }`}
         >
           <input
@@ -39,7 +49,7 @@ function SupportSelect() {
 
         <div
           className={`col-4 p-card--radio u-no-padding--top u-no-padding--bottom ${
-            selectedSupport === "standard" ? "is-selected" : ""
+            support === "standard" ? "is-selected" : ""
           }`}
         >
           <input
@@ -58,7 +68,7 @@ function SupportSelect() {
 
         <div
           className={`col-4 p-card--radio u-no-padding--top u-no-padding--bottom ${
-            selectedSupport === "advanced" ? "is-selected" : ""
+            support === "advanced" ? "is-selected" : ""
           }`}
         >
           <input
@@ -86,7 +96,7 @@ function SupportSelect() {
           </p>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 

@@ -1,12 +1,18 @@
 import React from "react";
 import Image from "./Image.jsx";
 import { useDispatch, useStore } from "../store/useStore.jsx";
+import Section from "./Section.jsx";
+import useGetState from "../hooks/useGetState.js";
 
 function TypeSelect() {
   const {
     currentProduct: { type },
   } = useStore();
   const dispatch = useDispatch();
+
+  const {
+    type: { disabled, hidden },
+  } = useGetState();
 
   const isMoreThanOneTypeEnabled =
     type === "physical" || type === "virtual" || type === "desktop";
@@ -35,7 +41,7 @@ function TypeSelect() {
   };
 
   return (
-    <section className="p-strip is-shallow">
+    <Section disabled={disabled} hidden={hidden}>
       <div className="row" onChange={handleChange}>
         <div className="col-12">
           <h2 className="p-heading--three u-no-margin--bottom u-sv2">
@@ -170,7 +176,7 @@ function TypeSelect() {
           <p>If you have more than one kind, you can add the others later.</p>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 

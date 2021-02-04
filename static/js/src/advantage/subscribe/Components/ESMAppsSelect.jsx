@@ -2,6 +2,8 @@ import React from "react";
 import { Input, Link } from "@canonical/react-components";
 import Image from "./Image.jsx";
 import { useDispatch, useStore } from "../store/useStore.jsx";
+import useGetState from "../hooks/useGetState.js";
+import Section from "./Section.jsx";
 
 function ESMAppsSelect() {
   const {
@@ -9,12 +11,20 @@ function ESMAppsSelect() {
   } = useStore();
   const dispatch = useDispatch();
 
-  const handleCheck = () => {
-    dispatch({ type: "SetESMApps", value: !ESMApps });
+  const {
+    ESMApps: { disabled, hidden },
+  } = useGetState();
+
+  if (hidden) {
+    return <></>;
+  }
+
+  const handleCheck = (e) => {
+    dispatch({ type: "SetESMApps", value: e.target.checked });
   };
 
   return (
-    <section className="p-strip is-shallow">
+    <Section disabled={disabled} hidden={hidden}>
       <div className="row">
         <div className="col-12">
           <h2 className="p-heading--three u-no-margin--bottom u-sv2">
@@ -44,11 +54,12 @@ function ESMAppsSelect() {
             id="ESMApps"
             label="Include ESM Apps in my plan"
             checked={ESMApps}
-            onClick={handleCheck}
+            onChange={handleCheck}
+            disabled={disabled}
           />
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 

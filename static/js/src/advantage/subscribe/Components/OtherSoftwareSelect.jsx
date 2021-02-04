@@ -2,6 +2,8 @@ import React from "react";
 import { Input } from "@canonical/react-components";
 import Image from "./Image.jsx";
 import { useDispatch, useStore } from "../store/useStore.jsx";
+import Section from "./Section.jsx";
+import useGetState from "../hooks/useGetState.js";
 
 function OtherSoftwareSelect() {
   const {
@@ -11,21 +13,25 @@ function OtherSoftwareSelect() {
   } = useStore();
   const dispatch = useDispatch();
 
-  const handleSecurityUpdateCheck = () => {
+  const {
+    otherSoftware: { hidden, disabled },
+  } = useGetState();
+
+  const handleSecurityUpdateCheck = (e) => {
     dispatch({
       type: "SetOtherSoftware",
-      value: { securityUpdates: !securityUpdates, KVMDrivers: KVMDrivers },
+      value: { securityUpdates: e.target.checked, KVMDrivers: KVMDrivers },
     });
   };
-  const handleKVMDriversCheck = () => {
+  const handleKVMDriversCheck = (e) => {
     dispatch({
       type: "SetOtherSoftware",
-      value: { securityUpdates: securityUpdates, KVMDrivers: !KVMDrivers },
+      value: { securityUpdates: securityUpdates, KVMDrivers: e.target.checked },
     });
   };
 
   return (
-    <section className="p-strip is-shallow">
+    <Section disabled={disabled} hidden={hidden}>
       <div className="row">
         <div className="col-12">
           <h2 className="p-heading--three u-no-margin--bottom u-sv2">
@@ -47,18 +53,18 @@ function OtherSoftwareSelect() {
             id="securityUpdates"
             label="Security updates for OpenStack, Ceph or MAAS"
             checked={securityUpdates}
-            onClick={handleSecurityUpdateCheck}
+            onChange={handleSecurityUpdateCheck}
           />
           <Input
             type="checkbox"
             id="KVMDrivers"
             label="Certified Windows drivers for KVM guests"
             checked={KVMDrivers}
-            onClick={handleKVMDriversCheck}
+            onChange={handleKVMDriversCheck}
           />
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 
